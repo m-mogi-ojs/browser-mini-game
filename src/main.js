@@ -1,7 +1,7 @@
 var canvas
 var context
-var cherryImage
-var risImage
+var bananaImage
+var playerImage
 var counter
 var playTime = 0
 var score = 0
@@ -59,14 +59,14 @@ var initialize = function() {
   canvas = document.getElementById("canvas")
   context = canvas.getContext('2d')
   context.font = "12px Arial"
-  cherryImage = new Image()
-  cherryImage.src = "./banana.png"
-  risImage = new Image()
-  risImage.src = "./monkey.png"
+  bananaImage = new Image()
+  bananaImage.src = "./banana.png"
+  playerImage = new Image()
+  playerImage.src = "./monkey.png"
   player = new GameObject(
     new Vector(canvas.width / 2 - IMAGE_SIZE / 2, canvas.height - IMAGE_SIZE*1.5),
     new Vector(0, 0),
-    risImage)
+    playerImage)
   // プレイヤー操作を設定
   // メインフレームに合わせて操作を受け付けるべきだが今は簡単さを重視
   document.addEventListener('keydown', function(e) {
@@ -94,8 +94,11 @@ var main = function() {
 
 var draw = function() {
   context.clearRect(0, 0, canvas.width, canvas.height)
+  // UI
   context.fillText("プレイ時間：" + Math.floor(playTime / FRAME_PER_SEC).toString(), 5, 5 + 12)
   context.fillText("スコア：" + score, canvas.width - 80 - 5, 5 + 12)
+
+  // GameObject
   Object.keys(objects).reverse().forEach(key => {
     context.drawImage(objects[key].imageObj, objects[key].pos.x, objects[key].pos.y, IMAGE_SIZE, IMAGE_SIZE)
   });
@@ -106,7 +109,7 @@ var createDropObject = function() {
     new GameObject(
       new Vector(Math.random() * (canvas.width - IMAGE_SIZE), 0),
       new Vector(0, 2),
-      cherryImage
+      bananaImage
     )
   }
 }
